@@ -1,4 +1,3 @@
-import React from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useDispatch, useSelector } from "react-redux"
 import { setSelectedConversation } from "../../../slices/userSlice"

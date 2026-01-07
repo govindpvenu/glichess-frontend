@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import { useCallback, useEffect, useState } from "react"
 export const Route = createFileRoute("/_private/game")({
     component: Game,
@@ -23,11 +23,16 @@ function Game() {
     }, [])
 
     useEffect(() => {
-        socket.emit("username", userInfo?.username)
-        socket.on("opponentJoined", (roomData: any) => {
-            setPlayers(roomData.players)
-        })
-    }, [])
+        if (userInfo?.username) {
+            socket.emit("username", userInfo.username)
+            socket.on("opponentJoined", (roomData: any) => {
+                setPlayers(roomData.players)
+            })
+            return () => {
+                socket.off("opponentJoined")
+            }
+        }
+    }, [userInfo?.username])
 
     return room ? (
         <PlayGame

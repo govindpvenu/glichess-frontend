@@ -16,25 +16,24 @@ export const SocketContextProvider = ({ children }: any) => {
 
     useEffect(() => {
         if (userInfo) {
-            const socket: any = io("http://localhost:3000", {
+            const newSocket: any = io("http://localhost:3000", {
                 query: {
                     userId: userInfo._id,
                 },
             })
 
-            setSocket(socket)
+            setSocket(newSocket)
 
             // socket.on() is used to listen to the events. can be used both on client and server side
-            socket.on("getOnlineUsers", (users: any) => {
+            newSocket.on("getOnlineUsers", (users: any) => {
                 setOnlineUsers(users)
             })
 
-            return () => socket.close()
-        } else {
-            if (socket) {
-                // socket.close();
-                setSocket(null)
+            return () => {
+                newSocket.close()
             }
+        } else {
+            setSocket(null)
         }
     }, [userInfo])
 

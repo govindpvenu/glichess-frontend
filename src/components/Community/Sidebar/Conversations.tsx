@@ -1,4 +1,3 @@
-import React from "react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Conversation from "./Conversation"
 import { useGetOtherUsersQuery } from "../../../slices/userApiSlice"

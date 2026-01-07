@@ -9,7 +9,7 @@ import { DataTable } from "@/components/Ranking/data-table"
 import { useGetAllUsersQuery } from "../../slices/userApiSlice"
 
 function Ranking() {
-    const { data, error, isLoading } = useGetAllUsersQuery({})
+    const { data, isLoading } = useGetAllUsersQuery({})
 
     console.log("data:", data)
     return (

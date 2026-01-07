@@ -16,6 +16,8 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   
+  import type React from "react"
+  
   interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>

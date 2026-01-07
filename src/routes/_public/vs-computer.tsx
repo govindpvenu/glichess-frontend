@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 export const Route = createFileRoute("/_public/vs-computer")({
     component: HumanVsComputer,
 })
@@ -21,7 +21,6 @@ function HumanVsComputer() {
     const moveSound = new Audio('/public/move.mp3');
     const dispatch = useDispatch()
     const { gameState } = useSelector((state: RootState) => state.game)
-    const navigate = useNavigate()
     const { toast } = useToast()
     const [game] = useState(new Chess())
     const [position, setPosition] = useState("start")
@@ -30,10 +29,10 @@ function HumanVsComputer() {
         console.log("useEffect:", gameState)
         if (gameState?.mode === "vs-computer" && gameState?.position) {
             console.log("useEffect:", gameState?.position)
-            game.load(gameState?.position)
-            setPosition(gameState?.position)
+            game.load(gameState.position)
+            setPosition(gameState.position)
         }
-    }, [])
+    }, [game, gameState])
 
     function isOver() {
         if (game.in_checkmate()) {

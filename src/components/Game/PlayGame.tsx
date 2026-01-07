@@ -11,34 +11,32 @@ import { Chess, Square } from "chess.js"
 import { Chessboard } from "react-chessboard"
 import socket from "../../socket"
 import type { RootState } from "../../store"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
 import { HistoryCard } from "@/components/Game/GameComponents/HistoryCard"
-import { useNavigate } from "@tanstack/react-router"
 import { useUpdateWinsMutation } from "../../slices/gameApiSlice"
 import Timer from "./GameComponents/Timer"
 
-export function PlayGame({ players, room, orientation, cleanup }: any) {
+export function PlayGame({ players, room, orientation }: any) {
     const { userInfo } = useSelector((state: RootState) => state.auth)
     const [gaveOver, setGameOver] = useState(false)
     const [state, setState] = useState(false)
-    const [start, setStart] = useState(false)
     const [game] = useState(new Chess())
     const [updateWins] = useUpdateWinsMutation()
 
     const [position, setPosition] = useState("start")
 
-    const dispatch = useDispatch()
-    // const { gameState } = useSelector((state: RootState) => state.game)
-    const navigate = useNavigate()
     const { toast } = useToast()
 
-    function isOver() {
+    const updateWinsAsync = useCallback(async () => {
+        if (userInfo?.email) {
+            await updateWins({ email: userInfo.email }).unwrap()
+        }
+    }, [userInfo?.email, updateWins])
+
+    const isOver = useCallback(() => {
         if (game.in_checkmate()) {
-            async function update() {
-                const res = await updateWins({ email: userInfo?.email }).unwrap()
-            }
-            update()
+            updateWinsAsync()
             return { title: "White wins", description: `${game.turn() === "w" ? "Black" : "White"} won the game by checkmate.` }
         } else if (game.in_draw()) {
             return { title: "Draw", description: "It's a draw." }
@@ -49,7 +47,8 @@ export function PlayGame({ players, room, orientation, cleanup }: any) {
         } else {
             return false
         }
-    }
+    }, [game, updateWinsAsync])
+
     const makeAMove = useCallback(
         (move: any) => {
             try {
@@ -66,7 +65,7 @@ export function PlayGame({ players, room, orientation, cleanup }: any) {
                 return null
             } // null if the move was illegal, the move object if the move was legal
         },
-        [game]
+        [game, isOver]
     )
 
     function onDrop(sourceSquare: Square, targetSquare: Square) {
@@ -119,9 +118,12 @@ export function PlayGame({ players, room, orientation, cleanup }: any) {
 
     useEffect(() => {
         socket.on("move", (move) => {
-            setState(!state)
+            setState((prevState) => !prevState)
             makeAMove(move)
         })
+        return () => {
+            socket.off("move")
+        }
     }, [makeAMove])
 
     let time = new Date()

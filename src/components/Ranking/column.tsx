@@ -1,5 +1,5 @@
 "use client"
-import { Ghost, UserRoundSearch } from "lucide-react"
+import { UserRoundSearch } from "lucide-react"
 
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./DataTableColumnHeader"

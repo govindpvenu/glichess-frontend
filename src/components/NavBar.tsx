@@ -6,10 +6,8 @@ import { Link } from "@tanstack/react-router"
 import type { RootState } from "../store"
 import { useSelector } from "react-redux"
 
-import { CircleUser, Menu, Package2, Search } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 export function NavBar() {

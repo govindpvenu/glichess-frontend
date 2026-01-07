@@ -1,27 +1,21 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { CornerDownLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { messagesApiSlice, useSendMessageMutation } from "../../../slices/messagesApiSlice"
-import { useDispatch, useSelector } from "react-redux"
+import { useSendMessageMutation } from "../../../slices/messagesApiSlice"
+import { useSelector } from "react-redux"
 import type { RootState } from "../../../store"
-import { setMessages } from "../../../slices/messagesSlice"
 
 function MessageInput({mes,setMes}:any) {
-    const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState("")
-    const dispatch = useDispatch()
     const [sendMessage] = useSendMessageMutation()
     const { selectedConversation } = useSelector((state: RootState) => state.user)
-    const { messages } = useSelector((state: RootState) => state.messages)
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         if (!message) return
         try {
-            setLoading(true)
-
             const res = await sendMessage({ id: (selectedConversation as any)?._id, message }).unwrap()
             console.log("res:",res)
             
@@ -31,8 +25,6 @@ function MessageInput({mes,setMes}:any) {
 
         } catch (error: any) {
             console.log(error)
-        } finally {
-            setLoading(false)
         }
     }
     return (

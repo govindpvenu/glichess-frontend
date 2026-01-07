@@ -1,12 +1,11 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Shuffle } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import socket from "../../socket"
 import { Button } from "@/components/ui/button"
-import { useNavigate } from "@tanstack/react-router"
 
 export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: any) {
     const [roomInput, setRoomInput] = useState("")

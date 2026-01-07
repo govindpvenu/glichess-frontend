@@ -19,11 +19,11 @@ declare module "@tanstack/react-router" {
 }
 
 const App = () => {
-    const { googleAuth } = useAuth()
+    const authentication = useAuth()
+    const { googleAuth } = authentication
     useEffect(() => {
         googleAuth()
-    }, [])
-    const authentication = useAuth()
+    }, [googleAuth])
     return (
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <ToastContainer />

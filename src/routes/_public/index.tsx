@@ -1,28 +1,19 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 export const Route = createFileRoute("/_public/")({
     component: Index,
 })
 import { EnvelopeOpenIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 
-import socket from "../../socket"
 import { useSelector, useDispatch } from "react-redux"
 import { useLogoutMutation } from "../../slices/authApiSlice"
 import { clearCredentials } from "../../slices/authSlice"
 import type { RootState } from "../../store"
-import { CreateGame } from "@/components/Game/CreateGame"
-import { useState } from "react"
-import { toast } from "react-toastify"
 
 function Index() {
     const { userInfo } = useSelector((state: RootState) => state.auth)
-    const [roomInput, setRoomInput] = useState("");
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const [logoutApiCall] = useLogoutMutation()
     const logoutHandler = async () => {
         try {

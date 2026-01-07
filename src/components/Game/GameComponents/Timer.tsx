@@ -1,21 +1,20 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { useTimer } from "react-timer-hook"
 import { Button } from "../../ui/button"
 
-export default function Timer({ expiryTimestamp,state }: any) {
-    const { totalSeconds, seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimer({ expiryTimestamp, onExpire: () => console.warn("onExpire called") })
+export default function Timer({ expiryTimestamp, state }: any) {
+    const { seconds, minutes, pause, resume } = useTimer({ expiryTimestamp, onExpire: () => console.warn("onExpire called") })
     useEffect(() => {
         if (state) {
             resume()
         } else {
             pause()
         }
-    }, [state])
+    }, [state, pause, resume])
 
     return (
         <Button variant={"secondary"}>
             <div style={{ fontSize: "20px" }}>
-                
                 <span>{minutes}</span>:<span>{seconds}</span>
             </div>
         </Button>

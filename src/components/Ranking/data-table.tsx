@@ -1,6 +1,5 @@
 "use client"
 import * as React from "react"
-import { Button } from "@/components/ui/button"
 
 import { ColumnDef, SortingState, flexRender, getCoreRowModel, getSortedRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 

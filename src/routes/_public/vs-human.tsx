@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 export const Route = createFileRoute("/_public/vs-human")({
     component: HumanVsComputer,
 })
@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 
 import { useEffect, useState } from "react"
-import { Chess,Square } from "chess.js"
+import { Chess, Square } from "chess.js"
 import { Chessboard } from "react-chessboard"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -20,20 +20,19 @@ import { HistoryCard } from "@/components/Game/GameComponents/HistoryCard"
 function HumanVsComputer() {
     const dispatch = useDispatch()
     const { gameState } = useSelector((state: RootState) => state.game)
-    const navigate = useNavigate()
     const { toast } = useToast()
     const [game] = useState(new Chess())
     const [position, setPosition] = useState("start")
     // const [turn, setTurn] = useState("w")
     useEffect(() => {
         if (gameState?.mode === "vs-human" && gameState?.position) {
-            game.load(gameState?.position)
-            setPosition(gameState?.position)
+            game.load(gameState.position)
+            setPosition(gameState.position)
         }
-    }, [])
+    }, [game, gameState?.mode, gameState?.position])
     function isOver() {
         if (game.in_checkmate()) {
-            return { title: "White wins", description: `${game.turn()=== "w" ? "Black" : "White"} won the game by checkmate.` }
+            return { title: "White wins", description: `${game.turn() === "w" ? "Black" : "White"} won the game by checkmate.` }
         } else if (game.in_draw()) {
             return { title: "Draw", description: "It's a draw." }
         } else if (game.in_stalemate()) {
