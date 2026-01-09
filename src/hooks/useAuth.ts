@@ -12,7 +12,8 @@ export const useAuth = () => {
 
     const googleAuth = () => {
         console.log("Google auth..")
-        fetch("http://localhost:5000/api/auth/auth/login/success", {
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
+        fetch(`${API_URL}/api/auth/auth/login/success`, {
             method: "GET",
             credentials: "include",
         })

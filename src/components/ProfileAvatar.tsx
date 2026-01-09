@@ -21,7 +21,8 @@ const ProfileAvatar = () => {
             await logoutApiCall({}).unwrap()
             dispatch(clearGame())
             dispatch(clearCredentials())
-            window.open("http://localhost:5000/api/auth/auth/google/logout", "_self")
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
+            window.open(`${API_URL}/api/auth/auth/google/logout`, "_self")
             navigate({ to: "/" })
         } catch (err) {
             console.log(err)

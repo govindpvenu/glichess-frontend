@@ -154,9 +154,7 @@ function HumanVsComputer() {
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={resetGame}>
-                                        Resign
-                                    </AlertDialogAction>
+                                    <AlertDialogAction onClick={resetGame}>Resign</AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>

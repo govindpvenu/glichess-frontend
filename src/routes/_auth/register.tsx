@@ -27,7 +27,8 @@ function Register() {
     const [register] = useRegisterMutation()
     const { userInfo } = useSelector((state: RootState) => state.auth)
     const googleAuth = () => {
-        window.open("http://localhost:5000/api/auth/auth/google", "_self")
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
+        window.open(`${API_URL}/api/auth/auth/google`, "_self")
     }
     const submitHandler = async () => {
         if (username.length < 3) {
