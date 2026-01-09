@@ -1,6 +1,5 @@
 import { ModeToggle } from "./ModeToggle"
 import ProfileAvatar from "./ProfileAvatar"
-import Logo from "../assets/logo.png"
 import { NavigationMenu, navigationMenuTriggerStyle, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu"
 import { Link } from "@tanstack/react-router"
 import type { RootState } from "../store"
@@ -21,8 +20,8 @@ export function NavBar() {
                         {userInfo?.verified ? (
                             <>
                                 <NavigationMenuItem>
-                                    <Link to="/">
-                                        <img className="w-64" src={Logo} alt="Glichess" />
+                                    <Link to="/" className="text-2xl font-bold text-primary">
+                                        Glitchess
                                     </Link>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
@@ -41,28 +40,17 @@ export function NavBar() {
                                         Ranking
                                     </Link>
                                 </NavigationMenuItem>
-
-                                <NavigationMenuItem>
-                                    <Link to="/about" className={navigationMenuTriggerStyle()}>
-                                        About
-                                    </Link>
-                                </NavigationMenuItem>
                             </>
                         ) : (
                             <>
                                 <NavigationMenuItem>
-                                    <Link to="/">
-                                        <img className="w-36" src={Logo} alt="Glichess" />
+                                    <Link to="/" className="text-2xl font-bold text-primary">
+                                        Glitchess
                                     </Link>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
                                     <Link to="/" className={navigationMenuTriggerStyle()}>
                                         Home
-                                    </Link>
-                                </NavigationMenuItem>
-                                <NavigationMenuItem>
-                                    <Link to="/about" className={navigationMenuTriggerStyle()}>
-                                        About
                                     </Link>
                                 </NavigationMenuItem>
                             </>
@@ -79,8 +67,8 @@ export function NavBar() {
                 </SheetTrigger>
                 <SheetContent side="left">
                     <nav className="grid gap-6 text-lg font-medium">
-                        <Link to="/" className="flex items-center gap-2 text-lg font-semibold">
-                            <img className="w-32" src={Logo} alt="Glichess" />
+                        <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
+                            Glitchess
                         </Link>
                         {userInfo?.verified ? (
                             <>
@@ -93,17 +81,11 @@ export function NavBar() {
                                 <Link to="/ranking" className="text-muted-foreground hover:text-foreground">
                                     Ranking
                                 </Link>
-                                <Link to="/about" className="text-muted-foreground hover:text-foreground">
-                                    About
-                                </Link>
                             </>
                         ) : (
                             <>
                                 <Link to="/" className="hover:text-foreground">
                                     Home
-                                </Link>
-                                <Link to="/about" className="text-muted-foreground hover:text-foreground">
-                                    About
                                 </Link>
                             </>
                         )}
