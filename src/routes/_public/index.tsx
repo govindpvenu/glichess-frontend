@@ -24,7 +24,7 @@ function Index() {
         }
     }
     return userInfo?.verified ? (
-        <div className="flex justify-center items-center flex-1 overflow-y-auto"> 
+        <div className="flex justify-center items-center flex-1 overflow-y-auto">
             <Card className="w-[500px]">
                 <CardHeader>
                     <CardTitle>Hello {userInfo?.username} 🚀 </CardTitle>
@@ -72,7 +72,7 @@ function Index() {
         <div className="flex justify-center items-center flex-1 overflow-y-auto">
             <Card className="w-[900px] h-96 flex flex-col items-center">
                 <CardHeader>
-                    <CardTitle>Hey there, Welcome to Chess.com♟️.</CardTitle>
+                    <CardTitle>Hey there, Welcome to Glichess♟️.</CardTitle>
                 </CardHeader>
                 <CardContent className="my-10 w-[500px]">
                     <p>Play interactive chess online with people around the world Create new account to join the large community of players or Login to your existing account, and start enjoying all the chess.</p>

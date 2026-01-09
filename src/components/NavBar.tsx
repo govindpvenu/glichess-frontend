@@ -22,7 +22,7 @@ export function NavBar() {
                             <>
                                 <NavigationMenuItem>
                                     <Link to="/">
-                                        <img className="w-64" src={Logo} alt="Chess.com" />
+                                        <img className="w-64" src={Logo} alt="Glichess" />
                                     </Link>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
@@ -52,7 +52,7 @@ export function NavBar() {
                             <>
                                 <NavigationMenuItem>
                                     <Link to="/">
-                                        <img className="w-36" src={Logo} alt="Chess.com" />
+                                        <img className="w-36" src={Logo} alt="Glichess" />
                                     </Link>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
@@ -80,7 +80,7 @@ export function NavBar() {
                 <SheetContent side="left">
                     <nav className="grid gap-6 text-lg font-medium">
                         <Link to="/" className="flex items-center gap-2 text-lg font-semibold">
-                            <img className="w-32" src={Logo} alt="Chess.com" />
+                            <img className="w-32" src={Logo} alt="Glichess" />
                         </Link>
                         {userInfo?.verified ? (
                             <>
@@ -112,7 +112,7 @@ export function NavBar() {
             </Sheet>
             <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
                 <div className="ml-auto flex sm:flex-initial">
-                    <ModeToggle/>
+                    <ModeToggle />
                 </div>
                 {userInfo?.verified ? (
                     <ProfileAvatar />
