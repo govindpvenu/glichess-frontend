@@ -10,36 +10,24 @@ export const useAuth = () => {
         return userInfo?.verified
     }
 
-    const googleAuth = () => {
-        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
-        fetch(`${API_URL}/api/auth/auth/login/success`, {
-            method: "GET",
-            credentials: "include",
-        })
-            .then((response) => {
-                if (response.status === 200) return response.json()
-                // Silently fail if not authenticated via Google
-                return null
-            })
-            .then((resObject) => {
-                if (resObject?.user) {
-                    dispatch(
-                        setCredentials({
-                            _id: resObject.user?._id,
-                            username: resObject.user.username,
-                            email: resObject.user.email,
-                            profile: resObject.user.profile,
-                            verified: resObject.user.verified,
-                        })
-                    )
-                }
-            })
-            .catch(() => {
-                // Silently ignore - user not logged in via Google
-            })
+    const checkGoogleAuthCallback = () => {
+        // Check if we're returning from Google OAuth with user data in URL
+        const urlParams = new URLSearchParams(window.location.search)
+        const googleAuthData = urlParams.get("googleAuth")
+        
+        if (googleAuthData) {
+            try {
+                const userData = JSON.parse(decodeURIComponent(googleAuthData))
+                dispatch(setCredentials(userData))
+                // Clean up URL
+                window.history.replaceState({}, document.title, window.location.pathname)
+            } catch (e) {
+                console.error("Failed to parse Google auth data")
+            }
+        }
     }
 
-    return { isAuthenticated, googleAuth }
+    return { isAuthenticated, checkGoogleAuthCallback }
 }
 
 export type AuthContext = ReturnType<typeof useAuth>
