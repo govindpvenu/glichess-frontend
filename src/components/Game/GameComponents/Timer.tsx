@@ -3,7 +3,12 @@ import { useTimer } from "react-timer-hook"
 import { Button } from "../../ui/button"
 
 export default function Timer({ expiryTimestamp, state }: any) {
-    const { seconds, minutes, pause, resume } = useTimer({ expiryTimestamp, onExpire: () => console.warn("onExpire called") })
+    const { seconds, minutes, pause, resume } = useTimer({ 
+        expiryTimestamp, 
+        autoStart: false,
+        onExpire: () => console.warn("onExpire called") 
+    })
+    
     useEffect(() => {
         if (state) {
             resume()
@@ -12,24 +17,14 @@ export default function Timer({ expiryTimestamp, state }: any) {
         }
     }, [state, pause, resume])
 
+    const formattedMinutes = String(minutes).padStart(2, '0')
+    const formattedSeconds = String(seconds).padStart(2, '0')
+
     return (
         <Button variant={"secondary"}>
             <div style={{ fontSize: "20px" }}>
-                <span>{minutes}</span>:<span>{seconds}</span>
+                <span>{formattedMinutes}</span>:<span>{formattedSeconds}</span>
             </div>
         </Button>
     )
-}
-
-{
-    /* <p>{isRunning ? 'Running' : 'Not running'}</p>
-      <button onClick={start}>Start</button>
-      <button onClick={pause}>Pause</button>
-      <button onClick={resume}>Resume</button>
-      <button onClick={() => {
-        // Restarts to 5 minutes timer
-        const time = new Date();
-        time.setSeconds(time.getSeconds() + 300);
-        restart(time)
-      }}>Restart</button> */
 }

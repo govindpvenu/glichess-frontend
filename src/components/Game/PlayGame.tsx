@@ -6,22 +6,24 @@ import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 // import { toast } from "react-toastify"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, useMemo } from "react"
 import { Chess, Square } from "chess.js"
 import { Chessboard } from "react-chessboard"
 import socket from "../../socket"
 import type { RootState } from "../../store"
 import { useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
+import { Copy } from "lucide-react"
 import { HistoryCard } from "@/components/Game/GameComponents/HistoryCard"
 import { useUpdateWinsMutation } from "../../slices/gameApiSlice"
 import Timer from "./GameComponents/Timer"
+import { Link } from "@tanstack/react-router"
 
 export function PlayGame({ players, room, orientation }: any) {
     const { userInfo } = useSelector((state: RootState) => state.auth)
     const [gaveOver, setGameOver] = useState(false)
-    const [state, setState] = useState(false)
     const [game] = useState(new Chess())
+    const [, forceUpdate] = useState(0) // Used to trigger re-render when turn changes
     const [updateWins] = useUpdateWinsMutation()
 
     const [position, setPosition] = useState("start")
@@ -118,26 +120,56 @@ export function PlayGame({ players, room, orientation }: any) {
 
     useEffect(() => {
         socket.on("move", (move) => {
-            setState((prevState) => !prevState)
             makeAMove(move)
+            forceUpdate((n) => n + 1) // Trigger re-render to update timer state
         })
         return () => {
             socket.off("move")
         }
     }, [makeAMove])
 
-    let time = new Date()
-    time.setSeconds(time.getSeconds() + 600) // 10 minutes timer
+    // Create stable timer expiry timestamps that don't change on re-render
+    const whiteTimerExpiry = useMemo(() => {
+        const time = new Date()
+        time.setSeconds(time.getSeconds() + 600) // 10 minutes
+        return time
+    }, [])
+
+    const blackTimerExpiry = useMemo(() => {
+        const time = new Date()
+        time.setSeconds(time.getSeconds() + 600) // 10 minutes
+        return time
+    }, [])
+
+    // Determine which timer should be running based on game turn
+    const isWhiteTurn = game.turn() === "w"
 
     return (
         <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg border">
             <ResizablePanel defaultSize={70}>
                 <div className="flex items-center justify-center">
                     <div className="flex-col justify-center items-center">
-                        <p className="font-semibold">Game ID:{room}</p>
+                        <div className="flex items-center gap-2">
+                            <p className="font-semibold">Game ID: {room}</p>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(room)
+                                    toast({
+                                        title: "Copied!",
+                                        description: "Game ID copied to clipboard.",
+                                    })
+                                }}
+                            >
+                                <Copy className="h-4 w-4" />
+                            </Button>
+                        </div>
                         <p className="font-semibold">You are playing as {orientation}</p>
                         <div className="my-5">
-                            <Timer expiryTimestamp={time} state={state} />
+                            {/* Opponent's timer (top) */}
+                            <Timer expiryTimestamp={orientation === "white" ? blackTimerExpiry : whiteTimerExpiry} state={orientation === "white" ? !isWhiteTurn : isWhiteTurn} />
                         </div>
 
                         <div className="w-[700px] h-auto">
@@ -146,27 +178,33 @@ export function PlayGame({ players, room, orientation }: any) {
                                 position={position}
                                 boardOrientation={orientation}
                                 onPieceDrop={onDrop}
-                                // arePremovesAllowed={true}
                                 customDarkSquareStyle={{ backgroundColor: "#739451" }}
                                 customLightSquareStyle={{ backgroundColor: "#ecedd1" }}
                                 customBoardStyle={{
                                     borderRadius: "10px",
-                                    boxShadow: "0 5px 30px rgb(115, 148, 81)                                    ",
+                                    boxShadow: "0 5px 30px rgb(115, 148, 81)",
                                 }}
                             />
                         </div>
-                        
-                        <Timer expiryTimestamp={time} state={!state} />
+
+                        {/* Your timer (bottom) */}
+                        <Timer expiryTimestamp={orientation === "white" ? whiteTimerExpiry : blackTimerExpiry} state={orientation === "white" ? isWhiteTurn : !isWhiteTurn} />
 
                         <AlertDialog open={gaveOver}>
                             <AlertDialogTrigger></AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>White Wins</AlertDialogTitle>
-                                    <AlertDialogDescription>White won the game by checkmate.</AlertDialogDescription>
+                                    <AlertDialogTitle>{orientation === "white" ? "White" : "Black"} Wins</AlertDialogTitle>
+                                    <AlertDialogDescription> {orientation === "white" ? "White" : "Black"} won the game by checkmate.</AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogCancel>Home</AlertDialogCancel>
+                                    <AlertDialogCancel>
+                                        <Link to="/" className="w-full">
+                                            <Button className="w-full" variant="ghost">
+                                                Home
+                                            </Button>
+                                        </Link>
+                                    </AlertDialogCancel>
                                     <AlertDialogAction
                                         onClick={() => {
                                             window.location.reload()
@@ -205,15 +243,9 @@ export function PlayGame({ players, room, orientation }: any) {
             <ResizableHandle />
             <ResizablePanel defaultSize={30}>
                 <ResizablePanelGroup direction="vertical">
-                    <ResizablePanel defaultSize={70}>
+                    <ResizablePanel defaultSize={100}>
                         <div className="flex h-full items-center justify-center">
                             <HistoryCard history={game.history()} />
-                        </div>
-                    </ResizablePanel>
-                    <ResizableHandle />
-                    <ResizablePanel defaultSize={30}>
-                        <div className="flex h-full items-center justify-center p-6">
-                            <span className="font-semibold">Video Chat</span>
                         </div>
                     </ResizablePanel>
                 </ResizablePanelGroup>

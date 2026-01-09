@@ -15,11 +15,9 @@ export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: a
         if (!orientation) {
             setOrientation(finalOrientation)
         }
-        const response = socket.emit("createRoom", (roomId: any) => {
-            console.log("roomId:", roomId)
+        socket.emit("createRoom", { orientation: finalOrientation }, (roomId: any) => {
             setRoom(roomId)
         })
-        console.log("response:", response)
     }
 
     function joinGame() {
@@ -31,9 +29,10 @@ export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: a
             }
             setRoom(roomData?.roomId)
             setPlayers(roomData?.players)
-            console.log("orientaion:", roomData.players[0].username)
 
-            setOrientation(roomData.players[0].username === "white" ? "black" : "white")
+            // Get the opposite orientation of the game creator
+            const creatorOrientation = roomData.players[0].orientation
+            setOrientation(creatorOrientation === "white" ? "black" : "white")
         })
     }
     return (
@@ -71,10 +70,6 @@ export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: a
                     <Button className="w-96 my-4" variant="outline" onClick={createGame}>
                         Create Game
                     </Button>
-                    <div className="flex w-full max-w-sm items-center space-x-2">
-                        <Input type="text" value={roomInput} placeholder="Enter a code or link" onChange={(e) => setRoomInput(e.target.value)} />
-                        <Button onClick={joinGame}>Join</Button>
-                    </div>
                 </CardContent>
             </Card>
         </div>
