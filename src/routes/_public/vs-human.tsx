@@ -23,6 +23,13 @@ function HumanVsComputer() {
     const [position, setPosition] = useState("start")
     const [history, setHistory] = useState<string[]>([])
 
+    function resetGame() {
+        game.reset()
+        setPosition("start")
+        setHistory([])
+        dispatch(clearGame())
+    }
+
     function isOver() {
         if (game.in_checkmate()) {
             const winner = game.turn() === "w" ? "Black" : "White"
@@ -99,19 +106,13 @@ function HumanVsComputer() {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                    <AlertDialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</AlertDialogDescription>
+                                    <AlertDialogTitle>Resign from game?</AlertDialogTitle>
+                                    <AlertDialogDescription>Are you sure you want to resign? The game will be reset and you can start a new game.</AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-
-                                    <AlertDialogAction
-                                        onClick={() => {
-                                            dispatch(clearGame())
-                                            window.location.reload()
-                                        }}
-                                    >
-                                        Continue
+                                    <AlertDialogAction onClick={resetGame}>
+                                        Resign
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
