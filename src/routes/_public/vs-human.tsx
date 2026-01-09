@@ -7,29 +7,22 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Chess, Square } from "chess.js"
 import { Chessboard } from "react-chessboard"
 
-import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "../../store"
-import { saveGame, clearGame } from "../../slices/gameSlice"
+import { useDispatch } from "react-redux"
+import { clearGame } from "../../slices/gameSlice"
 import { Button } from "@/components/ui/button"
 import { HistoryCard } from "@/components/Game/GameComponents/HistoryCard"
 
 function HumanVsComputer() {
     const dispatch = useDispatch()
-    const { gameState } = useSelector((state: RootState) => state.game)
     const { toast } = useToast()
     const [game] = useState(new Chess())
     const [position, setPosition] = useState("start")
-    // const [turn, setTurn] = useState("w")
-    useEffect(() => {
-        if (gameState?.mode === "vs-human" && gameState?.position) {
-            game.load(gameState.position)
-            setPosition(gameState.position)
-        }
-    }, [game, gameState?.mode, gameState?.position])
+    const [history, setHistory] = useState<string[]>([])
+
     function isOver() {
         if (game.in_checkmate()) {
             return { title: "White wins", description: `${game.turn() === "w" ? "Black" : "White"} won the game by checkmate.` }
@@ -45,25 +38,19 @@ function HumanVsComputer() {
     }
 
     function onDrop(sourceSquare: Square, targetSquare: Square) {
-        console.log("Ondrop")
-        let move = game.move({
+        const move = game.move({
             from: sourceSquare,
             to: targetSquare,
             promotion: "q",
         })
-        // If illegal move
+
         if (move === null) {
-            console.log("illegal")
-            // toast({
-            //     title: "Uh oh!",
-            //     description: "That's not a valid move.",
-            //     action: <ToastAction altText="Try again">Ok</ToastAction>,
-            // })
             return false
         }
 
         setPosition(game.fen())
-        dispatch(saveGame({ mode: "vs-human", position: game.fen() }))
+        setHistory((prev) => [...prev, move.san])
+
         const over = isOver()
         if (over) {
             dispatch(clearGame())
@@ -83,7 +70,6 @@ function HumanVsComputer() {
             })
             return false
         }
-        // setTurn(game.turn())
         return true
     }
 
@@ -135,7 +121,7 @@ function HumanVsComputer() {
             <ResizableHandle />
             <ResizablePanel defaultSize={30}>
                 <div className="flex h-full items-center justify-center p-6">
-                    <HistoryCard history={game.history()} />
+                    <HistoryCard history={history} />
                 </div>
             </ResizablePanel>
         </ResizablePanelGroup>

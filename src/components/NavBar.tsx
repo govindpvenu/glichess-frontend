@@ -21,7 +21,7 @@ export function NavBar() {
                             <>
                                 <NavigationMenuItem>
                                     <Link to="/" className="text-2xl font-bold text-primary">
-                                        Glitchess
+                                        ♟️Glitchess
                                     </Link>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
@@ -39,7 +39,7 @@ export function NavBar() {
                             <>
                                 <NavigationMenuItem>
                                     <Link to="/" className="text-2xl font-bold text-primary">
-                                        Glitchess
+                                        ♟️Glitchess
                                     </Link>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
@@ -62,7 +62,7 @@ export function NavBar() {
                 <SheetContent side="left">
                     <nav className="grid gap-6 text-lg font-medium">
                         <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
-                            Glitchess
+                            ♟️Glitchess
                         </Link>
                         {userInfo?.verified ? (
                             <>
