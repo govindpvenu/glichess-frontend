@@ -28,7 +28,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
     return (
         <div>
-            <div className="rounded-md border">
+            <div className="rounded-md border ">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -42,11 +42,15 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow onClick={()=>{
-                                  console.log("clickeddd:",row.id)
-                                }} key={row.id} data-state={row.getIsSelected() && "selected"}>
+                                <TableRow
+                                    onClick={() => {
+                                        console.log("clickeddd:", row.id)
+                                    }}
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell  key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                                     ))}
                                 </TableRow>
                             ))

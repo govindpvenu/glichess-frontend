@@ -6,7 +6,6 @@ import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -92,10 +91,9 @@ function Profile() {
 
                 <div className=" border-gray-200 dark:border-gray-800 px-6 flex-1">
                     <Tabs className="w-full" defaultValue="overview">
-                        <TabsList className="grid w-full grid-cols-3">
+                        <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="overview">Overview</TabsTrigger>
                             <TabsTrigger value="details">Details</TabsTrigger>
-                            <TabsTrigger value="friends">Friends</TabsTrigger>
                         </TabsList>
                         <TabsContent className="mt-4" value="overview">
                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -190,72 +188,6 @@ function Profile() {
                                     </div>
                                 </div>
                             </div>
-                        </TabsContent>
-                        <TabsContent className="mt-4" value="friends">
-                            <ScrollArea className="h-full w-full rounded-md border">
-                                <div className="grid gap-4 p-4">
-                                    <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12">
-                                            <AvatarImage alt="@shadcn" src="/placeholder-avatar.jpg" />
-                                            <AvatarFallback>JD</AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid gap-1">
-                                            <p className="font-medium">John Doe</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">Chess Enthusiast</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12">
-                                            <AvatarImage alt="@shadcn" src="/placeholder-avatar.jpg" />
-                                            <AvatarFallback>SA</AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid gap-1">
-                                            <p className="font-medium">Sarah Adams</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">Chess Prodigy</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12">
-                                            <AvatarImage alt="@shadcn" src="/placeholder-avatar.jpg" />
-                                            <AvatarFallback>MR</AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid gap-1">
-                                            <p className="font-medium">Michael Roberts</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">Chess Master</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12">
-                                            <AvatarImage alt="@shadcn" src="/placeholder-avatar.jpg" />
-                                            <AvatarFallback>JD</AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid gap-1">
-                                            <p className="font-medium">John Doe</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">Chess Enthusiast</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12">
-                                            <AvatarImage alt="@shadcn" src="/placeholder-avatar.jpg" />
-                                            <AvatarFallback>SA</AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid gap-1">
-                                            <p className="font-medium">Sarah Adams</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">Chess Prodigy</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12">
-                                            <AvatarImage alt="@shadcn" src="/placeholder-avatar.jpg" />
-                                            <AvatarFallback>MR</AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid gap-1">
-                                            <p className="font-medium">Michael Roberts</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">Chess Master</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ScrollArea>
                         </TabsContent>
                     </Tabs>
                 </div>

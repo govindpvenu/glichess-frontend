@@ -27,7 +27,7 @@ function Index() {
         <div className="flex justify-center items-center flex-1 overflow-y-auto">
             <Card className="w-[500px]">
                 <CardHeader>
-                    <CardTitle>Hello {userInfo?.username} 🚀 </CardTitle>
+                    <CardTitle>Hello {userInfo?.username} </CardTitle>
                     <CardDescription>Welcome back!!</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center">
