@@ -31,6 +31,11 @@ function Index() {
                     <CardDescription>Welcome back!!</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center">
+                    <Link to="/game">
+                        <Button className="w-96 my-4" variant="outline">
+                            Play Online
+                        </Button>
+                    </Link>
                     <Link to="/vs-computer">
                         <Button className="w-96 my-4" variant="outline">
                             Human vs Computer
@@ -39,11 +44,6 @@ function Index() {
                     <Link to="/vs-human">
                         <Button className="w-96 my-4" variant="outline">
                             Human vs Human
-                        </Button>
-                    </Link>
-                    <Link to="/game">
-                        <Button className="w-96 my-4" variant="outline">
-                            Play Online
                         </Button>
                     </Link>
 

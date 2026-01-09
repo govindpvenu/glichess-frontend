@@ -9,12 +9,17 @@ import { Button } from "@/components/ui/button"
 
 export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: any) {
     const [roomInput, setRoomInput] = useState("")
-    
+
     function createGame() {
-        socket.emit("username", orientation)
-        socket.emit("createRoom", (roomId: any) => {
+        const finalOrientation = orientation || "white"
+        if (!orientation) {
+            setOrientation(finalOrientation)
+        }
+        const response = socket.emit("createRoom", (roomId: any) => {
+            console.log("roomId:", roomId)
             setRoom(roomId)
         })
+        console.log("response:", response)
     }
 
     function joinGame() {
@@ -41,7 +46,12 @@ export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: a
                     <ToggleGroup
                         value={orientation}
                         onValueChange={(value) => {
-                            setOrientation(value)
+                            if (value === "random") {
+                                const randomOrientation = Math.random() < 0.5 ? "black" : "white"
+                                setOrientation(randomOrientation)
+                            } else if (value) {
+                                setOrientation(value)
+                            }
                         }}
                         size={"lg"}
                         variant="outline"
@@ -54,7 +64,7 @@ export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: a
                         <ToggleGroupItem value="black" aria-label="Toggle black">
                             Black
                         </ToggleGroupItem>
-                        <ToggleGroupItem value={Math.random() < 0.5 ? "black" : "white"} aria-label="Toggle random">
+                        <ToggleGroupItem value="random" aria-label="Toggle random">
                             <Shuffle />
                         </ToggleGroupItem>
                     </ToggleGroup>

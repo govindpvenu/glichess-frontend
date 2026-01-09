@@ -33,20 +33,8 @@ function Game() {
             }
         }
     }, [userInfo?.username])
+    console.log("room:", room)
+    console.log(room ? "Play game" : "Create game")
 
-    return room ? (
-        <PlayGame
-        room={room}
-        orientation={orientation}
-        username={userInfo?.username}
-        players={players}
-        cleanup={cleanup}
-        />
-    ) : (
-        <InitGame
-        orientation={orientation}
-        setRoom={setRoom}
-        setOrientation={setOrientation}
-        setPlayers={setPlayers} />
-    )
+    return room ? <PlayGame room={room} orientation={orientation} username={userInfo?.username} players={players} cleanup={cleanup} /> : <InitGame orientation={orientation} setRoom={setRoom} setOrientation={setOrientation} setPlayers={setPlayers} />
 }
