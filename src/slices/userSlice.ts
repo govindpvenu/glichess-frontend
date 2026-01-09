@@ -1,18 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = {
-    selectedConversation: null,
-}
+const initialState = {}
 
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {
-        setSelectedConversation: (state, action) => {
-            state.selectedConversation = action.payload
-        },
-    },
+    reducers: {},
 })
 
-export const { setSelectedConversation } = userSlice.actions
 export default userSlice.reducer

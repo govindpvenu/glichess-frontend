@@ -52,11 +52,6 @@ function Index() {
                             Ranking
                         </Button>
                     </Link>
-                    <Link to="/community">
-                        <Button className="w-96 my-4" variant="outline">
-                            Community
-                        </Button>
-                    </Link>
                     <Link to="/profile">
                         <Button className="w-96 my-4" variant="outline">
                             Profile
@@ -75,7 +70,7 @@ function Index() {
                     <CardTitle>Hey there, Welcome to Glitchess♟️.</CardTitle>
                 </CardHeader>
                 <CardContent className="my-10 w-[500px]">
-                    <p>Play interactive chess online with people around the world Create new account to join the large community of players or Login to your existing account, and start enjoying all the chess.</p>
+                    <p>Play interactive chess online with people around the world. Create a new account or login to your existing account, and start enjoying chess.</p>
                 </CardContent>
                 <CardFooter className="my-5">
                     <Link to="/login">

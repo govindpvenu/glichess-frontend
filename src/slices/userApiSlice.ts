@@ -9,11 +9,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 url: `${USER_URL}/get-all-users`,
             }),
         }),
-        getOtherUsers: builder.query({
-            query: () => ({
-                url: `${USER_URL}/get-other-users`,
-            }),
-        }),
         updateUser: builder.mutation({
             query: (data) => ({
                 url: `${USER_URL}/update-user`,
@@ -21,7 +16,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
-    }),  
+    }),
 })
 
-export const { useGetAllUsersQuery,useGetOtherUsersQuery,useUpdateUserMutation } = usersApiSlice
+export const { useGetAllUsersQuery, useUpdateUserMutation } = usersApiSlice

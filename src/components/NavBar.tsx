@@ -30,12 +30,6 @@ export function NavBar() {
                                     </Link>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
-                                    <Link to="/community" className={navigationMenuTriggerStyle()}>
-                                        Community
-                                    </Link>
-                                </NavigationMenuItem>
-
-                                <NavigationMenuItem>
                                     <Link to="/ranking" className={navigationMenuTriggerStyle()}>
                                         Ranking
                                     </Link>
@@ -74,9 +68,6 @@ export function NavBar() {
                             <>
                                 <Link to="/" className="hover:text-foreground">
                                     Home
-                                </Link>
-                                <Link to="/community" className="text-muted-foreground hover:text-foreground">
-                                    Community
                                 </Link>
                                 <Link to="/ranking" className="text-muted-foreground hover:text-foreground">
                                     Ranking

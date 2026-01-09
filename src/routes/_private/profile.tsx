@@ -26,18 +26,17 @@ function Profile() {
     const dispatch = useDispatch()
     const [updateUser] = useUpdateUserMutation()
 
-
     const [userName, setUserName] = useState(userInfo.username)
     const [bio, setBio] = useState(userInfo.bio)
     const submitHandler = async () => {
-        console.log(userName,bio)
+        console.log(userName, bio)
         if (userName.length < 3) {
             toast.error("User name should have atleast 3 characters.")
         } else if (bio === "") {
             toast.error("Add bio")
         } else {
             try {
-                const res = await updateUser({ userName,bio }).unwrap()
+                const res = await updateUser({ userName, bio }).unwrap()
                 console.log(res)
                 dispatch(setCredentials({ ...res }))
             } catch (err: any) {
@@ -86,9 +85,6 @@ function Profile() {
                     <div className="flex gap-2">
                         <Link to="/ranking">
                             <Button variant="outline">View Rank</Button>
-                        </Link>
-                        <Link to="/community">
-                            <Button variant="outline">Community</Button>
                         </Link>
                     </div>
                 </div>
@@ -188,7 +184,9 @@ function Profile() {
                                 </div> */}
                                 <div className="grid gap-2">
                                     <div>
-                                        <Button onClick={submitHandler} className="mt-4">Save Changes</Button>
+                                        <Button onClick={submitHandler} className="mt-4">
+                                            Save Changes
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
