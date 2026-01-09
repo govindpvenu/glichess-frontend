@@ -21,10 +21,12 @@ import { Link } from "@tanstack/react-router"
 
 export function PlayGame({ players, room, orientation }: any) {
     const { userInfo } = useSelector((state: RootState) => state.auth)
-    const [gaveOver, setGameOver] = useState(false)
+    const [gameOver, setGameOver] = useState(false)
+    const [winner, setWinner] = useState<string | null>(null)
     const [game] = useState(new Chess())
     const [, forceUpdate] = useState(0) // Used to trigger re-render when turn changes
     const [updateWins] = useUpdateWinsMutation()
+    const [history, setHistory] = useState<string[]>([])
 
     const [position, setPosition] = useState("start")
 
@@ -38,28 +40,37 @@ export function PlayGame({ players, room, orientation }: any) {
 
     const isOver = useCallback(() => {
         if (game.in_checkmate()) {
-            updateWinsAsync()
-            return { title: "White wins", description: `${game.turn() === "w" ? "Black" : "White"} won the game by checkmate.` }
+            // The player whose turn it is has been checkmated (they lost)
+            const winnerColor = game.turn() === "w" ? "black" : "white"
+            // Only update wins if the current user won
+            if (winnerColor === orientation) {
+                updateWinsAsync()
+            }
+            return { title: `${winnerColor.charAt(0).toUpperCase() + winnerColor.slice(1)} wins`, description: `${winnerColor.charAt(0).toUpperCase() + winnerColor.slice(1)} won the game by checkmate.`, winner: winnerColor }
         } else if (game.in_draw()) {
-            return { title: "Draw", description: "It's a draw." }
+            return { title: "Draw", description: "It's a draw.", winner: null }
         } else if (game.in_stalemate()) {
-            return { title: "Stalemate", description: "The king has no moves." }
+            return { title: "Stalemate", description: "The king has no moves.", winner: null }
         } else if (game.in_threefold_repetition()) {
-            return { title: "Draw", description: "Draw by repetition." }
+            return { title: "Draw", description: "Draw by repetition.", winner: null }
         } else {
             return false
         }
-    }, [game, updateWinsAsync])
+    }, [game, updateWinsAsync, orientation])
 
     const makeAMove = useCallback(
         (move: any) => {
             try {
                 const result = game.move(move) // update Chess instance
                 setPosition(game.fen()) // update fen state to trigger a re-render
+                setHistory([...game.history()]) // update history state
 
                 const over = isOver()
                 if (over) {
                     setGameOver(true)
+                    if (over.winner) {
+                        setWinner(over.winner)
+                    }
                 }
 
                 return result
@@ -190,12 +201,12 @@ export function PlayGame({ players, room, orientation }: any) {
                         {/* Your timer (bottom) */}
                         <Timer expiryTimestamp={orientation === "white" ? whiteTimerExpiry : blackTimerExpiry} state={orientation === "white" ? isWhiteTurn : !isWhiteTurn} />
 
-                        <AlertDialog open={gaveOver}>
+                        <AlertDialog open={gameOver}>
                             <AlertDialogTrigger></AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>{orientation === "white" ? "White" : "Black"} Wins</AlertDialogTitle>
-                                    <AlertDialogDescription> {orientation === "white" ? "White" : "Black"} won the game by checkmate.</AlertDialogDescription>
+                                    <AlertDialogTitle>{winner ? `${winner.charAt(0).toUpperCase() + winner.slice(1)} Wins` : "Game Over"}</AlertDialogTitle>
+                                    <AlertDialogDescription>{winner ? `${winner.charAt(0).toUpperCase() + winner.slice(1)} won the game by checkmate.` : "The game has ended."}</AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>
@@ -245,7 +256,7 @@ export function PlayGame({ players, room, orientation }: any) {
                 <ResizablePanelGroup direction="vertical">
                     <ResizablePanel defaultSize={100}>
                         <div className="flex h-full items-center justify-center">
-                            <HistoryCard history={game.history()} />
+                            <HistoryCard history={history} />
                         </div>
                     </ResizablePanel>
                 </ResizablePanelGroup>

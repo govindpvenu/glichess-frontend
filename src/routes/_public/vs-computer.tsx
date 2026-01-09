@@ -26,7 +26,8 @@ function HumanVsComputer() {
 
     function isOver() {
         if (game.in_checkmate()) {
-            return { title: "White wins", description: `${game.turn() === "w" ? "Black" : "White"} won the game by checkmate.` }
+            const winner = game.turn() === "w" ? "Black" : "White"
+            return { title: `${winner} wins`, description: `${winner} won the game by checkmate.` }
         } else if (game.in_draw()) {
             return { title: "Draw", description: "It's a draw." }
         } else if (game.in_stalemate()) {
