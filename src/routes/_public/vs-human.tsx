@@ -74,11 +74,11 @@ function HumanVsComputer() {
     }
 
     return (
-        <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg border">
+        <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg border flex-1">
             <ResizablePanel defaultSize={70}>
-                <div className="flex h-full items-center justify-center">
-                    <div className="flex-col justify-center items-center h-full">
-                        <div className="w-[700px] h-auto">
+                <div className="flex h-full items-center justify-center p-6">
+                    <div className="flex flex-col justify-center items-center gap-4">
+                        <div className="w-[600px]">
                             <Chessboard
                                 id="PlayVsRandom"
                                 position={position}
@@ -93,7 +93,7 @@ function HumanVsComputer() {
                             />
                         </div>
                         <AlertDialog>
-                            <AlertDialogTrigger className="my-9 dark" asChild>
+                            <AlertDialogTrigger className="dark" asChild>
                                 <Button variant="destructive">Resign</Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>

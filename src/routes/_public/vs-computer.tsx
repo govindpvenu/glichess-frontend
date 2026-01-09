@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button"
 import { HistoryCard } from "@/components/Game/GameComponents/HistoryCard"
 
 function HumanVsComputer() {
-    const moveSound = new Audio('/move.mp3');
+    const moveSound = new Audio("/move.mp3")
     const dispatch = useDispatch()
     const { toast } = useToast()
     const [game] = useState(new Chess())
@@ -67,14 +67,14 @@ function HumanVsComputer() {
     function makeRandomMove() {
         const possibleMoves = game.moves()
         if (possibleMoves.length === 0) return
-        
+
         const randomIndex = Math.floor(Math.random() * possibleMoves.length)
         const move = game.move(possibleMoves[randomIndex])
-        
+
         if (move) {
             moveSound.play()
             setPosition(game.fen())
-            setHistory(prev => [...prev, move.san])
+            setHistory((prev) => [...prev, move.san])
         }
     }
 
@@ -84,15 +84,15 @@ function HumanVsComputer() {
             to: targetSquare,
             promotion: "q",
         })
-        
+
         if (move === null) {
             return false
         }
-        
-        moveSound.play();
+
+        moveSound.play()
         setPosition(game.fen())
-        setHistory(prev => [...prev, move.san])
-        
+        setHistory((prev) => [...prev, move.san])
+
         const over = isOver()
         if (over) {
             dispatch(clearGame())
@@ -117,11 +117,11 @@ function HumanVsComputer() {
     }
 
     return (
-        <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg border h-full">
+        <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg border flex-1">
             <ResizablePanel defaultSize={70}>
-                <div className="flex items-center justify-center">
-                    <div className="flex-col justify-center items-center ">
-                        <div className="w-[700px] h-auto">
+                <div className="flex h-full items-center justify-center p-6">
+                    <div className="flex flex-col justify-center items-center gap-4">
+                        <div className="w-[600px]">
                             <Chessboard
                                 id="PlayVsRandom"
                                 position={position}
@@ -136,7 +136,7 @@ function HumanVsComputer() {
                             />
                         </div>
                         <AlertDialog>
-                            <AlertDialogTrigger className="my-9 dark" asChild>
+                            <AlertDialogTrigger className="dark" asChild>
                                 <Button variant="destructive">Resign</Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
