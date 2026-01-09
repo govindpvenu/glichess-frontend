@@ -70,6 +70,10 @@ export function InitGame({ orientation, setRoom, setOrientation, setPlayers }: a
                     <Button className="w-96 my-4" variant="outline" onClick={createGame}>
                         Create Game
                     </Button>
+                    <div className="flex w-full max-w-sm items-center space-x-2">
+                        <Input type="text" value={roomInput} placeholder="Enter a code or link" onChange={(e) => setRoomInput(e.target.value)} />
+                        <Button onClick={joinGame}>Join</Button>
+                    </div>
                 </CardContent>
             </Card>
         </div>
