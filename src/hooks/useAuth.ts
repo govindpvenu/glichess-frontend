@@ -11,7 +11,6 @@ export const useAuth = () => {
     }
 
     const googleAuth = () => {
-        console.log("Google auth..")
         const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
         fetch(`${API_URL}/api/auth/auth/login/success`, {
             method: "GET",
@@ -19,22 +18,24 @@ export const useAuth = () => {
         })
             .then((response) => {
                 if (response.status === 200) return response.json()
-                throw new Error("authentication has been failed!")
+                // Silently fail if not authenticated via Google
+                return null
             })
             .then((resObject) => {
-                console.log(resObject)
-                dispatch(
-                    setCredentials({
-                        _id: resObject.user?._id,
-                        username: resObject.user.username,
-                        email: resObject.user.email,
-                        profile: resObject.user.profile,
-                        verified: resObject.user.verified,
-                    })
-                )
+                if (resObject?.user) {
+                    dispatch(
+                        setCredentials({
+                            _id: resObject.user?._id,
+                            username: resObject.user.username,
+                            email: resObject.user.email,
+                            profile: resObject.user.profile,
+                            verified: resObject.user.verified,
+                        })
+                    )
+                }
             })
-            .catch((err) => {
-                console.log(err)
+            .catch(() => {
+                // Silently ignore - user not logged in via Google
             })
     }
 
