@@ -71,14 +71,14 @@ function Profile() {
                     <div className="grid grid-cols-2 gap-4 text-center">
                         <div>
                             <div className="flex items-center justify-center">
-                                <p className="text-2xl font-bold">{userInfo.wins + userInfo.draw + userInfo.loss}</p>
+                                <p className="text-2xl font-bold">{(userInfo.wins ?? 0) + (userInfo.draw ?? 0) + (userInfo.loss ?? 0)}</p>
                             </div>
                             <p className="text-sm text-gray-500 dark:text-gray-400">Games Played</p>
                         </div>
 
                         <div>
                             <div className="flex items-center justify-center">
-                                <p className="text-2xl font-bold">{userInfo.rating}</p>
+                                <p className="text-2xl font-bold">{userInfo.rating ?? 0}</p>
                             </div>
                             <p className="text-sm text-gray-500 dark:text-gray-400">Rating</p>
                         </div>
@@ -108,7 +108,7 @@ function Profile() {
                                     <CardContent>
                                         <div className="flex items-center justify-center">
                                             <CardTitle>Wins:</CardTitle>
-                                            <p className="text-2xl font-bold">{userInfo.wins}</p>
+                                            <p className="text-2xl font-bold">{userInfo.wins ?? 0}</p>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -122,7 +122,7 @@ function Profile() {
                                     <CardContent>
                                         <div className="flex items-center justify-center">
                                             <CardTitle>Draws:</CardTitle>
-                                            <p className="text-2xl font-bold">{userInfo.draw}</p>
+                                            <p className="text-2xl font-bold">{userInfo.draw ?? 0}</p>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -135,7 +135,7 @@ function Profile() {
                                     <CardContent>
                                         <div className="flex items-center justify-center">
                                             <CardTitle>Losses:</CardTitle>
-                                            <p className="text-2xl font-bold">{userInfo.loss}</p>
+                                            <p className="text-2xl font-bold">{userInfo.loss ?? 0}</p>
                                         </div>
                                     </CardContent>
                                 </Card>
