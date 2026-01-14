@@ -34,7 +34,7 @@ function RootComponent() {
         <div className="flex flex-col min-h-screen overflow-hidden">
             <NavBar />
             <Outlet />
-            <TanStackRouterDevtools />
+            {import.meta.env.DEV && <TanStackRouterDevtools />}
         </div>
     )
 }
