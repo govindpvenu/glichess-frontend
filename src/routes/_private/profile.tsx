@@ -11,10 +11,10 @@ import { Separator } from "@/components/ui/separator"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../../store"
 import { FlagOff, Handshake, Trophy } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { setCredentials } from "../../slices/authSlice"
-import { useUpdateUserMutation } from "../../slices/userApiSlice"
+import { useUpdateUserMutation, useGetProfileQuery } from "../../slices/userApiSlice"
 
 export const Route = createFileRoute("/_private/profile")({
     component: Profile,
@@ -24,9 +24,19 @@ function Profile() {
     const { userInfo } = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch()
     const [updateUser] = useUpdateUserMutation()
+    const { data: profileData } = useGetProfileQuery(undefined)
 
     const [userName, setUserName] = useState(userInfo.username)
     const [bio, setBio] = useState(userInfo.bio)
+
+    // Update Redux store and local state when fresh profile data is fetched
+    useEffect(() => {
+        if (profileData) {
+            dispatch(setCredentials(profileData))
+            setUserName(profileData.username)
+            setBio(profileData.bio)
+        }
+    }, [profileData, dispatch])
     const submitHandler = async () => {
         console.log(userName, bio)
         if (userName.length < 3) {
